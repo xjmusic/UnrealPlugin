@@ -39,7 +39,7 @@ void SDebugSegmentView::Construct(const FArguments& Args)
 						.Image(BackgroundBrush)
 				]
 				+ SOverlay::Slot()
-				.Padding(FMargin(5.0f, 0.0f, 0, 0))
+				.Padding(FMargin(5.0f, 0, 0, 0))
 				.VAlign(VAlign_Fill)
 				.HAlign(HAlign_Fill)
 				[
@@ -48,11 +48,11 @@ void SDebugSegmentView::Construct(const FArguments& Args)
 					.AutoHeight()
 					[
 						SNew(SBox)
-						.MinDesiredHeight(200.0f)
-						.MaxDesiredHeight(200.0f)
+						.MinDesiredHeight(250.0f)
+						.MaxDesiredHeight(250.0f)
 						[
 							SNew(SUniformGridPanel)
-							.SlotPadding(FMargin(0, 2.0f))
+							.SlotPadding(FMargin(0, 0))
 							+ SUniformGridPanel::Slot(0, 0)
 							[
 								SAssignNew(IdTextBlock,STextBlock)
@@ -96,8 +96,12 @@ void SDebugSegmentView::Construct(const FArguments& Args)
 							]
 							+ SUniformGridPanel::Slot(0, 3)
 							[
-								SAssignNew(MemesTextBlock, STextBlock)
-								.Font(FontInfo)
+								SNew(SBox)
+								[
+									SAssignNew(MemesTextBlock, STextBlock)
+									.Font(FontInfo)
+									.AutoWrapText(false)
+								]
 							]
 					]
 				]
@@ -137,7 +141,10 @@ void SDebugSegmentView::Update(const FSegmentInfo& Info)
 	FString MemesStr = "Memes:\n";
 	for (const FString& Meme : Info.Memes)
 	{
-		MemesStr += Meme + "\n";
+		if (!Meme.IsEmpty())
+		{
+			MemesStr += Meme + "\n";
+		}
 	}
 
 	IdTextBlock->SetText(FText::FromString(IdStr));
