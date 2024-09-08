@@ -1,0 +1,3 @@
+[submodule "Plugins/XJMusicPlugin/xj"]
+	path = Plugins/XJMusicPlugin/xj
+	url = https://github.com/xjmusic/xjmusic.git

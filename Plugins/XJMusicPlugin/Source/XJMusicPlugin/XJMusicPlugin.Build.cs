@@ -33,15 +33,9 @@ public class XJMusicPlugin : ModuleRules
             }
 		);
 
-        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../../Include/"));
+        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../../xj/engine/include/"));
+        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../../xj/engine/build/_deps/json-src/include"));
 
-        if (Target.Configuration == UnrealTargetConfiguration.DebugGame)
-		{
-            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../../Lib/xjmusic.lib"));
-		}
-		else
-		{
-            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../../Lib/xjmusic.lib"));
-        }
+        PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../../xj/engine/build/src/Release/xjmusic.lib"));
     }
 }
