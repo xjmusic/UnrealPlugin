@@ -1,11 +1,12 @@
 @echo off
 
 SET "TAG=v1.9.5"
-SET "XJ_LIB_PATH=Plugins\XJMusicPlugin\xj\engine"
+SET "REPOSITRY_PATH=Plugins\XJMusicPlugin\xj\"
+SET "CMAKE_PATH=Plugins\XJMusicPlugin\xj\engine\"
 
-git submodule update --init --recursive
+git clone https://github.com/xjmusic/xjmusic.git %REPOSITRY_PATH%
 
-cd "%XJ_LIB_PATH%"
+cd "%CMAKE_PATH%"
 
 git checkout tags/%TAG%
 

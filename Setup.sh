@@ -1,16 +1,15 @@
 TAG="v1.9.5"
-XJ_LIB_PATH="Plugins/XJMusicPlugin/xj/engine"
+REPOSITORY_PATH="Plugins/XJMusicPlugin/xj/"
+CMAKE_PATH="Plugins/XJMusicPlugin/xj/engine/"
 
+git clone https://github.com/xjmusic/xjmusic.git "$REPOSITORY_PATH"
 
-git submodule update --init --recursive
+cd "$CMAKE_PATH"
 
-cd "$XJ_LIB_PATH"
-
-git checkout tags/$TAG
+git checkout tags/"$TAG"
 
 mkdir -p build
 cd build
-
 cmake ..
 
 cmake --build . --config Release --target xjmusic
