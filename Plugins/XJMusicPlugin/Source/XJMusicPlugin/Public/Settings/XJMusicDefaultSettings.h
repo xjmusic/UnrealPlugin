@@ -18,6 +18,9 @@ public:
 	
 	UPROPERTY(Config, EditAnywhere, Category = "Settings")
 	bool bDefaultOutput = true;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Settings")
+	bool bShowDebugTimeline = true;
 	
 	UPROPERTY(Config, EditAnywhere, Category = "Settings")
 	FString PathToXjMusicWorkstation;

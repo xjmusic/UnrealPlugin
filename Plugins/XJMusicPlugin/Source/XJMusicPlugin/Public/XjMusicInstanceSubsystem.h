@@ -75,8 +75,10 @@ public:
 private:
 
 	FString RuntimeProjectDir;
+
+	void OnShowDebugChainVarChanged(IConsoleVariable* Var);
 	
-	void OnEnabledShowDebugChain(IConsoleVariable* Var);
+	void ShowDebugChain(const bool bShow);
 
 	void UpdateDebugChainView();
 
@@ -87,4 +89,6 @@ private:
 	TSharedPtr<SDebugChainView> DebugChainViewWidget;
 
 	TMap<FString, FAudioPlayer> ActiveAudios;
+
+	bool bMouseCursorInitialState = false;
 };

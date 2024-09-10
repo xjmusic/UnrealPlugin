@@ -19,7 +19,7 @@ void UXjMusicInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
-	CVarShowDebugChain->SetOnChangedCallback(FConsoleVariableDelegate::CreateUObject(this, &UXjMusicInstanceSubsystem::OnEnabledShowDebugChain));
+	CVarShowDebugChain->SetOnChangedCallback(FConsoleVariableDelegate::CreateUObject(this, &UXjMusicInstanceSubsystem::OnShowDebugChainVarChanged));
 }
 
 void UXjMusicInstanceSubsystem::Deinitialize()
@@ -129,10 +129,12 @@ void UXjMusicInstanceSubsystem::SetupXJ()
 		Manager->Setup();
 	}
 
-	if (CVarShowDebugChain->GetInt() > 0)
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
 	{
-		OnEnabledShowDebugChain(CVarShowDebugChain->AsVariable());
+		bMouseCursorInitialState = PlayerController->ShouldShowMouseCursor();
 	}
+
+	ShowDebugChain(XjSettings->bShowDebugTimeline);
 }
 
 void UXjMusicInstanceSubsystem::ShutdownXJ()
@@ -140,7 +142,6 @@ void UXjMusicInstanceSubsystem::ShutdownXJ()
 	DebugChainViewWidget.Reset();
 
 	ActiveAudios.Empty();
-
 
 	if (IsValid(Mixer))
 	{
@@ -224,7 +225,7 @@ void UXjMusicInstanceSubsystem::RemoveActiveAudio(const FAudioPlayer& Audio)
 	Mixer->RemoveActiveAudio(Audio.Id);
 }
 
-void UXjMusicInstanceSubsystem::OnEnabledShowDebugChain(IConsoleVariable* Var)
+void UXjMusicInstanceSubsystem::OnShowDebugChainVarChanged(IConsoleVariable* Var)
 {
 	if (!Var)
 	{
@@ -233,20 +234,32 @@ void UXjMusicInstanceSubsystem::OnEnabledShowDebugChain(IConsoleVariable* Var)
 
 	int Value = Var->GetInt();
 
-	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+	ShowDebugChain(Value > 0);
+}
+
+void UXjMusicInstanceSubsystem::ShowDebugChain(const bool bShow)
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+
+	if (!PlayerController)
 	{
-		PlayerController->SetShowMouseCursor(Value > 0);
+		return;
 	}
 
-	if (Value <= 0)
+	if (!bShow)
 	{
 		if (DebugChainViewWidget)
 		{
 			DebugChainViewWidget->SetVisibility(EVisibility::Hidden);
 		}
+
+		PlayerController->SetShowMouseCursor(bMouseCursorInitialState);
 	}
 	else
 	{
+		bMouseCursorInitialState = PlayerController->ShouldShowMouseCursor();
+		PlayerController->SetShowMouseCursor(true);
+
 		if (DebugChainViewWidget)
 		{
 			DebugChainViewWidget->SetVisibility(EVisibility::Visible);
