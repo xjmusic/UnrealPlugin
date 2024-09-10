@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = "Settings")
 	bool bShowDebugTimeline = true;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Settings")
+	TArray<FString> DefaultTaxonomies;
 	
 	UPROPERTY(Config, EditAnywhere, Category = "Settings")
 	FString PathToXjMusicWorkstation;

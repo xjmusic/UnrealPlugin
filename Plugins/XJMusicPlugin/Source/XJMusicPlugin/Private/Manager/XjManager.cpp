@@ -17,6 +17,14 @@ FXjRunnable::FXjRunnable(UWorld* World)
 
 bool FXjRunnable::Init()
 {
+	UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
+
+	if (!XjSettings)
+	{
+		return false;
+	}
+
+
 	XjStartTime.SetInSeconds(FPlatformTime::Seconds());
 
 	if (!TryInitMockEngine())
@@ -26,7 +34,8 @@ bool FXjRunnable::Init()
 
 	if (Engine && XjMusicSubsystem->XjProjectInstance)
 	{
-		Engine->Setup(XjMusicSubsystem->GetRuntimeProjectDirectory() + "/" + XjMusicSubsystem->XjProjectInstance->ProjectName + ".xj");
+		Engine->Setup(XjMusicSubsystem->GetRuntimeProjectDirectory() + "/" + XjMusicSubsystem->XjProjectInstance->ProjectName + ".xj",
+					  XjSettings->DefaultTaxonomies);
 	}
 
 	AudioLoader = XjMusicSubsystem->AudioLoader;

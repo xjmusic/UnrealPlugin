@@ -15,7 +15,7 @@ class TXjMainEngine : public TEngineBase
 
 public:
 
-	void Setup(const FString& PathToProject) override;
+	void Setup(const FString& PathToProject, const TArray<FString> DefaultTaxonomies) override;
 
 	TArray<FAudioPlayer> RunCycle(const uint64 ChainMicros) override;
 

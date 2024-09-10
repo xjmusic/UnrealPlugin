@@ -79,7 +79,7 @@ class TEngineBase
 
 public:
 
-	virtual void Setup(const FString& PathToProject) {}
+	virtual void Setup(const FString& PathToProject, const TArray<FString> DefaultTaxonomies) {}
 
 	virtual void Shutdown() {}
 

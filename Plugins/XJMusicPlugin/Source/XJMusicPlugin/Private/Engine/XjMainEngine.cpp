@@ -3,7 +3,7 @@
 #include "Engine/XjMainEngine.h"
 #include <XjMusicInstanceSubsystem.h>
 
-void TXjMainEngine::Setup(const FString& PathToProject)
+void TXjMainEngine::Setup(const FString& PathToProject, const TArray<FString> DefaultTaxonomies)
 {	
 	std::string PathToProjectStr = TCHAR_TO_UTF8(*PathToProject);
 	
@@ -13,49 +13,50 @@ void TXjMainEngine::Setup(const FString& PathToProject)
 	std::optional<int>		   DeadlineSeconds;
 	std::optional<int>		   PersistenceWindowSeconds;
 
-	try
+	XjEngine = MakeUnique<Engine>(PathToProjectStr,
+		ControlMode,
+		CraftAheadSeconds,
+		DubAheadSeconds,
+		DeadlineSeconds,
+		PersistenceWindowSeconds);
+
+	if (!XjEngine)
 	{
-		XjEngine = MakeUnique<Engine>(PathToProjectStr,
-			ControlMode,
-			CraftAheadSeconds,
-			DubAheadSeconds,
-			DeadlineSeconds,
-			PersistenceWindowSeconds);
-
-		if (!XjEngine)
-		{
-			UE_LOG(LogTemp, Error, TEXT("Cannot instantiate XJ Engine"));
-			return;
-		}
-
-		volatile WorkSettings craft = XjEngine->getSettings();
-
-		std::set<const Template*> TemplatesInfo = XjEngine->getProjectContent()->getTemplates();
-
-
-		for (const Template* Info : TemplatesInfo)
-		{
-			FString Name(Info->name.c_str());
-
-			UE_LOG(LogTemp, Warning, TEXT("Imported template: %s"), *Name);
-		}
-
-		if (TemplatesInfo.size() < 1)
-		{
-			return;
-		}
-
-		const Template* FirstTemplate = *TemplatesInfo.begin();
-
-		CurrentTemplateName = FirstTemplate->name.c_str();
-
-		XjEngine->start(FirstTemplate->id);
+		UE_LOG(LogTemp, Error, TEXT("Cannot instantiate XJ Engine"));
+		return;
 	}
-	catch (const std::invalid_argument& Exception)
+
+	WorkSettings craft = XjEngine->getSettings();
+
+	std::set<const Template*> TemplatesInfo = XjEngine->getProjectContent()->getTemplates();
+
+
+	for (const Template* Info : TemplatesInfo)
 	{
-		FString ErrorStr(Exception.what());
-		UE_LOG(LogTemp, Error, TEXT("%s"), *ErrorStr);
+		FString Name(Info->name.c_str());
+
+		UE_LOG(LogTemp, Warning, TEXT("Imported template: %s"), *Name);
 	}
+
+	if (TemplatesInfo.size() < 1)
+	{
+		return;
+	}
+
+	const Template* FirstTemplate = *TemplatesInfo.begin();
+
+	CurrentTemplateName = FirstTemplate->name.c_str();
+
+	XjEngine->start(FirstTemplate->id);
+
+	std::set<std::string> taxonomies;
+
+	for (const FString& Str : DefaultTaxonomies)
+	{
+		taxonomies.insert(TCHAR_TO_UTF8(*Str));
+	}
+
+	XjEngine->doOverrideMemes(taxonomies);
 }
 
 TArray<FAudioPlayer> TXjMainEngine::RunCycle(const uint64 ChainMicros)
