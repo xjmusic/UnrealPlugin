@@ -162,14 +162,26 @@ void UXjMusicInstanceSubsystem::ShutdownXJ()
 	DeleteRuntimeProjectDirectory();
 }
 
-void UXjMusicInstanceSubsystem::AddActiveAudio(const FAudioPlayer& Audio)
+void UXjMusicInstanceSubsystem::AddOrUpdateActiveAudio(const FAudioPlayer& Audio)
 {
+	if (!IsInGameThread())
+	{
+		AsyncTask(ENamedThreads::GameThread, [this, Audio]()
+			{
+				AddOrUpdateActiveAudio(Audio);
+			});
+
+		return;
+	}
+
 	if (ActiveAudios.Contains(Audio.Id))
 	{
-		return;
+		ActiveAudios[Audio.Id] = Audio;
 	}
-
-	ActiveAudios.Add(Audio.Id, Audio);
+	else
+	{
+		ActiveAudios.Add(Audio.Id, Audio);
+	}
 
 	UpdateDebugChainView();
 
@@ -178,36 +190,21 @@ void UXjMusicInstanceSubsystem::AddActiveAudio(const FAudioPlayer& Audio)
 		return;
 	}
 
-	AsyncTask(ENamedThreads::GameThread, [this, Audio]()
-		{
-			Mixer->AddOrUpdateActiveAudio(FMixerAudio::CreateMixerAudio(Audio, AudioLoader));
-		});
-}
-
-void UXjMusicInstanceSubsystem::UpdateActiveAudio(const FAudioPlayer& Audio)
-{
-	if (!ActiveAudios.Contains(Audio.Id))
-	{
-		return;
-	}
-
-	ActiveAudios[Audio.Id] = Audio;
-
-	UpdateDebugChainView();
-
-	if (!Mixer)
-	{
-		return;
-	}
-
-	AsyncTask(ENamedThreads::GameThread, [this, Audio]()
-		{
-			Mixer->AddOrUpdateActiveAudio(FMixerAudio::CreateMixerAudio(Audio, AudioLoader));
-		});
+	Mixer->AddOrUpdateActiveAudio(FMixerAudio::CreateMixerAudio(Audio, AudioLoader));
 }
 
 void UXjMusicInstanceSubsystem::RemoveActiveAudio(const FAudioPlayer& Audio)
 {
+	if (!IsInGameThread())
+	{
+		AsyncTask(ENamedThreads::GameThread, [this, Audio]()
+			{
+				RemoveActiveAudio(Audio);
+			});
+
+		return;
+	}
+
 	if (!ActiveAudios.Contains(Audio.Id))
 	{
 		return;

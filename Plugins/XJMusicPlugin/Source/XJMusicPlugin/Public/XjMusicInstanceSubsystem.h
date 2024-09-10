@@ -44,11 +44,11 @@ public:
 
 	void ShutdownXJ();
 
-	void AddActiveAudio(const FAudioPlayer& Audio);
 
-	void UpdateActiveAudio(const FAudioPlayer& Audio);
+	void AddOrUpdateActiveAudio(const FAudioPlayer& Audio);
 
 	void RemoveActiveAudio(const FAudioPlayer& Audio);
+
 	
 	const TMap<FString, FAudioPlayer>& GetActiveAudios() const
 	{

@@ -95,11 +95,11 @@ uint32 FXjRunnable::Run()
 			switch (Audio.Event)
 			{
 			case EAudioEventType::Create:
-				XjMusicSubsystem->AddActiveAudio(Audio);
+				XjMusicSubsystem->AddOrUpdateActiveAudio(Audio);
 				break;
 
 			case EAudioEventType::Update:
-				XjMusicSubsystem->UpdateActiveAudio(Audio);
+				XjMusicSubsystem->AddOrUpdateActiveAudio(Audio);
 				break;
 
 			case EAudioEventType::Delete:
