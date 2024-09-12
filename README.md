@@ -18,5 +18,6 @@ Run Examples
 To run example you need to have Unreal Engine 5.4 or higher
 
 You only need to copy a XJMusicPlugin foldder and paste inside Plugins folder of example project you selected:
+
 Path to where you need to paste plugin must look like this:
 ```Examples/../Plugins```
