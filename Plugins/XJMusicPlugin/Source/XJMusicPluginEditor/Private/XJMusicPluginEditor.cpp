@@ -1,4 +1,6 @@
-﻿#include "XJMusicPluginEditor.h"
+﻿// Copyright (c) XJ Music Inc. (https://xjmusic.com) All Rights Reserved.
+
+#include "XJMusicPluginEditor.h"
 #include "AssetToolsModule.h"
 #include "ISettingsModule.h"
 #include "Settings/XJMusicDefaultSettings.h"

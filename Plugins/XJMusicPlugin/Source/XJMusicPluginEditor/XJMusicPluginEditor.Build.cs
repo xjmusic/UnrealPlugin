@@ -1,4 +1,6 @@
-﻿using UnrealBuildTool;
+﻿// Copyright (c) XJ Music Inc. (https://xjmusic.com) All Rights Reserved.
+
+using UnrealBuildTool;
 
 public class XJMusicPluginEditor : ModuleRules
 {

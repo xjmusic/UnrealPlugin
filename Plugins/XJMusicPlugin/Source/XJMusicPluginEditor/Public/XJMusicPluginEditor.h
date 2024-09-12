@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Copyright (c) XJ Music Inc. (https://xjmusic.com) All Rights Reserved.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
