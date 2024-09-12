@@ -1,7 +1,7 @@
 Setup
 ----------------------
 
-You need to have installed at least the 3.24 version of **[Cmake](https://cmake.org/download/)**
+_**You need to have installed at least the 3.24 version of [Cmake](https://cmake.org/download/)**_
 
 Open XJMusicPlugin and run one of the followoing command based on your operating system:
 
@@ -15,7 +15,7 @@ After setup commands completion, you can generate an Unreal Engine example proje
 
 Run Examples
 ----------------------
-To run example you need to have Unreal Engine 5.4 or higher
+_**To run example you need to have installed Unreal Engine 5.4 or higher**_
 
 You only need to copy a XJMusicPlugin foldder and paste inside Plugins folder of example project you selected:
 
