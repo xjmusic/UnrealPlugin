@@ -1,0 +1,29 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "XJMusicPlugin",
+	"Description": "",
+	"Category": "Audio",
+	"CreatedBy": "XJ Music",
+	"CreatedByURL": "https://xjmusic.com/",
+	"DocsURL": "https://docs.xjmusic.com/",
+	"MarketplaceURL": "",
+	"SupportURL": "mailti:hi@xjmusic.com",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "XJMusicPlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "XJMusicPluginEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
