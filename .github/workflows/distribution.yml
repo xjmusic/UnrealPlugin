@@ -1,6 +1,8 @@
 name: Engine Distro
 
 on:
+  workflow_dispatch:
+  
   push:
     tags: [ '*' ]
 
