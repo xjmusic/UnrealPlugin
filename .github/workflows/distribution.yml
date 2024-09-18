@@ -1,0 +1,37 @@
+name: Engine Distro
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+
+  build_and_release:
+      name: Build and Release [${{ matrix.os }}]
+      runs-on: ${{ matrix.os }}
+      permissions: write-all
+      strategy:
+        matrix:
+          os: [ ubuntu-latest, macos-13, macos-14, windows-latest ]
+        fail-fast: false
+        
+      steps:
+      
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
+        working-directory: ./
+        run: |
+          choco install cmake
+
+      - name: Build
+        if: runner.os == 'Windows'
+        working-directory: XJMusicPlugin/
+        run: |
+          Setup.bat
+
+      - name: Compress plugin source (Window)
+        if: runner.os == 'Windows'
+        run: |
+          Compress-Archive -Path ../XJMusicPlugin/ -DestinationPath ../XJMuscigPlugin.zip
