@@ -35,4 +35,4 @@ jobs:
       - name: Compress plugin source (Window)
         if: runner.os == 'Windows'
         run: |
-          Compress-Archive -Path ../XJMusicPlugin/ -DestinationPath ../XJMuscigPlugin.zip
+          Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMuscigPlugin.zip
