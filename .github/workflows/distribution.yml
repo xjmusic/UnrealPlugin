@@ -1,4 +1,4 @@
-name: Engine Distro
+name: Plugin Distribution
 
 on:
   workflow_dispatch:
