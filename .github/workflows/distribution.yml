@@ -30,8 +30,9 @@ jobs:
       - name: Build
         if: runner.os == 'Windows'
         run: |
-          cd XJMusicPlugin
-          Setup.bat
+          XJMusicPlugin/Setup.bat
+          
+          xcopy /E /I /Y xj/ XJMusicPlugin/
           
       - name: Compress plugin source (Window)
         if: runner.os == 'Windows'
