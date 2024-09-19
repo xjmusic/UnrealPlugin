@@ -12,7 +12,7 @@ jobs:
       permissions: write-all
       strategy:
         matrix:
-          os: [ ubuntu-latest ]
+          os: [ macos-14 ]
         fail-fast: false
         
       steps:
@@ -31,6 +31,12 @@ jobs:
         working-directory: ./
         run: |
           sudo apt-get install -y cmake
+
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        working-directory: ./
+        run: |
+          brew install cmake
           
           
       - name: Build (Windows)
@@ -45,6 +51,12 @@ jobs:
         run: |
           sudo bash Setup.sh
 
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        working-directory: XJMusicPlugin/
+        run: |
+          bash Setup.sh
+
     
       - name: Compress plugin (Window)
         if: runner.os == 'Windows'
@@ -57,6 +69,12 @@ jobs:
         run: |
           tar -czvf XJMusicPlugin.tar.gz XJMusicPlugin/
           tar -czvf XJMusicPluginWithExamples.tar.gz XJMusicPlugin/ Examples/
+
+      - name: Compress plugin (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          zip -r XJMusicPlugin.zip XJMusicPlugin/
+          zip -r XJMusicPluginWithExamples.zip XJMusicPlugin/ Examples/
 
           
       - name: Upload just plugin to release page (Windows)
@@ -78,6 +96,16 @@ jobs:
           asset_name: xjmusic-plugin-${{ github.ref_name }}-linux.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
+          
+      - name: Upload just plugin to release page (macOS)
+        if: runner.os == 'macOS'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: XJMusicPlugin.zip
+          asset_name: xjmusic-plugin-${{ github.ref_name }}-macOs.zip
+          tag: ${{ github.ref }}
+          overwrite: true
 
 
       - name: Upload plugin with examples to release page (Windows)
@@ -97,5 +125,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: XJMusicPluginWithExamples.tar.gz
           asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-linux.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: Upload plugin with examples to release page (macOS)
+        if: runner.os == 'macOS'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: XJMusicPluginWithExamples.zip
+          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-macOs.zip
           tag: ${{ github.ref }}
           overwrite: true
