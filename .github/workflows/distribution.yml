@@ -43,6 +43,7 @@ jobs:
         if: runner.os == 'Linux'
         working-directory: XJMusicPlugin/
         run: |
+          chmod +x ./Setup.sh
           ./Setup.sh
 
     
