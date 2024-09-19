@@ -40,7 +40,7 @@ jobs:
           ./Setup.bat
 
       - name: Build (Linux)
-        if: runner.os == 'Windows'
+        if: runner.os == 'Linux'
         working-directory: XJMusicPlugin/
         run: |
           ./Setup.sh
