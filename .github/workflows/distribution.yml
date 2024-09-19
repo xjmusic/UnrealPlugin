@@ -25,21 +25,25 @@ jobs:
         if: runner.os == 'Windows'
         working-directory: ./
         run: |
-          choco install cmake
-
+          choco install cmake 
+          
       - name: Build
         if: runner.os == 'Windows'
-        working-directory: ./XJMusicPlugin/
         run: |
+          cd XJMusicPlugin
           Setup.bat
-          Compress-Archive -Path ../XJMusicPlugin/ -DestinationPath ../XJMusicPlugin.zip
-
+          
+      - name: Compress plugin source (Window)
+        if: runner.os == 'Windows'
+        run: |
+          Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
+          
       - name: Upload to release page (Windows)
         if: runner.os == 'Windows'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: XJMusicPlugin.zip
-          asset_name: XJMusicPlugin.zip
+          asset_name: XJMusicPlugin-${{ github.ref }}.zip
           tag: ${{ github.ref }}
           overwrite: true
