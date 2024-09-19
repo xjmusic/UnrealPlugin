@@ -12,7 +12,7 @@ jobs:
       permissions: write-all
       strategy:
         matrix:
-          os: [ windows-latest, ubuntu-latest ]
+          os: [ ubuntu-latest ]
         fail-fast: false
         
       steps:
@@ -43,8 +43,7 @@ jobs:
         if: runner.os == 'Linux'
         working-directory: XJMusicPlugin/
         run: |
-          chmod +x ./Setup.sh
-          ./Setup.sh
+          sudo ./Setup.sh
 
     
       - name: Compress plugin (Window)
