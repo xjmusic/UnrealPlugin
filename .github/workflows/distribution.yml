@@ -29,11 +29,10 @@ jobs:
 
       - name: Build
         if: runner.os == 'Windows'
+        working-directory: ./XJMusicPlugin/
         run: |
-          cd XJMusicPlugin
           Setup.bat
-          cd..
-          Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
+          Compress-Archive -Path ../XJMusicPlugin/ -DestinationPath ../XJMusicPlugin.zip
 
       - name: Upload to release page (Windows)
         if: runner.os == 'Windows'
