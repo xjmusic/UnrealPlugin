@@ -19,27 +19,45 @@ jobs:
       
       - uses: actions/checkout@v2
 
+
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
         working-directory: ./
         run: |
           choco install cmake 
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        working-directory: engine/
+        run: |
+          sudo apt-get install -y cmake
           
-      - name: Build
+          
+      - name: Build (Windows)
         if: runner.os == 'Windows'
         working-directory: XJMusicPlugin/
         run: |
           ./Setup.bat
+
+      - name: Build (Linux)
+        if: runner.os == 'Windows'
+        working-directory: XJMusicPlugin/
+        run: |
+          ./Setup.sh
+
     
-      - name: Compress plugin source (Window)
+      - name: Compress plugin (Window)
         if: runner.os == 'Windows'
         run: |
           Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
-
-      - name: Compress plugin source (Window)
-        if: runner.os == 'Windows'
-        run: |
           Compress-Archive -Path XJMusicPlugin/, Examples/  -DestinationPath XJMusicPluginWithExamples.zip
+
+      - name: Compress plugin (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          tar -czvf XJMusicPlugin.tar.gz XJMusicPlugin/
+          tar -czvf XJMusicPluginWithExamples.tar.gz XJMusicPlugin/ Examples/
+
           
       - name: Upload just plugin to release page (Windows)
         if: runner.os == 'Windows'
@@ -47,9 +65,20 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: XJMusicPlugin.zip
-          asset_name: XJMusicPlugin-${{ github.ref_name }}.zip
+          asset_name: xjmusic-plugin-${{ github.ref_name }}-windows.zip
           tag: ${{ github.ref }}
           overwrite: true
+
+      - name: Upload just plugin to release page (Linux)
+        if: runner.os == 'Linux'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: XJMusicPlugin.tar.gz
+          asset_name: xjmusic-plugin-${{ github.ref_name }}-linux.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+
 
       - name: Upload plugin with examples to release page (Windows)
         if: runner.os == 'Windows'
@@ -57,6 +86,16 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: XJMusicPluginWithExamples.zip
-          asset_name: XJMusicPluginWithExamples-${{ github.ref_name }}.zip
+          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-windows.zip
           tag: ${{ github.ref }}
-          overwrite: true   
+          overwrite: true 
+
+      - name: Upload plugin with examples to release page (Linux)
+        if: runner.os == 'Linux'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: XJMusicPluginWithExamples.tar.gz
+          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-linux.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
