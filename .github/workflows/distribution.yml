@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux'
-        working-directory: engine/
+        working-directory: ./
         run: |
           sudo apt-get install -y cmake
           
