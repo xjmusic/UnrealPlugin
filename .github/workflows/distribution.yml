@@ -12,7 +12,7 @@ jobs:
       permissions: write-all
       strategy:
         matrix:
-          os: [ windows-latest ubuntu-latest, macos-13 ]
+          os: [ windows-latest, ubuntu-latest, macos-13 ]
         fail-fast: false
         
       steps:
