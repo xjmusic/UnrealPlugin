@@ -13,30 +13,23 @@ FXjRunnable::FXjRunnable(UWorld* World)
 	check(World);
 
 	XjMusicSubsystem = World->GetGameInstance()->GetSubsystem<UXjMusicInstanceSubsystem>();
+
+	Settings = GetSettings(World);
 }
 
 bool FXjRunnable::Init()
 {
-	UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
+	XjStartTime.SetInSeconds(FPlatformTime::Seconds());
 
-	if (!XjSettings)
+	Engine = MakeShared<TXjMainEngine>();
+
+	if (!Engine || !XjMusicSubsystem->XjProjectInstance)
 	{
 		return false;
 	}
 
-
-	XjStartTime.SetInSeconds(FPlatformTime::Seconds());
-
-	if (!TryInitMockEngine())
-	{
-		Engine = MakeShared<TXjMainEngine>();
-	}
-
-	if (Engine && XjMusicSubsystem->XjProjectInstance)
-	{
-		Engine->Setup(XjMusicSubsystem->GetRuntimeProjectDirectory() + "/" + XjMusicSubsystem->XjProjectInstance->ProjectName + ".xj",
-					  XjSettings->DefaultTaxonomies);
-	}
+	Engine->Setup(XjMusicSubsystem->GetRuntimeProjectDirectory() + "/" + XjMusicSubsystem->XjProjectInstance->ProjectName + ".xj",
+				  Settings.DefaultTaxonomies);
 
 	AudioLoader = XjMusicSubsystem->AudioLoader;
 
@@ -127,26 +120,6 @@ uint32 FXjRunnable::Run()
 void FXjRunnable::Stop()
 {
 	bShouldStop = true;
-}
-
-bool FXjRunnable::TryInitMockEngine()
-{
-	UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
-	if (XjSettings && XjSettings->bDevelopmentMode)
-	{
-		Engine = MakeShared<TMockDataEngine>();
-
-		if (TMockDataEngine* MockEngine = StaticCast<TMockDataEngine*>(Engine.Get()))
-		{
-			MockEngine->SetMockData(XjSettings->MockDataDT);
-			MockEngine->MaxAudiosOutputPerCycle = XjSettings->MaxAudiosOutputPerCycle;
-			MockEngine->LatencyBetweenCyclesInSeconds = XjSettings->LatencyBetweenCyclesInSeconds;
-		}
-
-		return true;
-	}
-
-	return false;
 }
 
 void UXjManager::Setup()

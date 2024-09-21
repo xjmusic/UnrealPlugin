@@ -8,12 +8,41 @@
 #include "Sound/SoundConcurrency.h"
 #include "Mixer/XjMixer.h"
 #include "Manager/XjAudioLoader.h"
+#include "Kismet/GameplayStatics.h"
 
 static TAutoConsoleVariable<int32> CVarShowDebugChain(
 	TEXT("xj.showdebug"), 
 	1, 
 	TEXT("Show debug view of the chain schedule"), 
 	ECVF_Default);
+
+FXjSettings GetSettings(UWorld* World)
+{
+	if (!World)
+	{
+		return {};
+	}
+
+	UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
+	if (!XjSettings)
+	{
+		return {};
+	}
+
+	AActor* Actor = UGameplayStatics::GetActorOfClass(World, ASettingsActor::StaticClass());
+	if (IsValid(Actor))
+	{
+		ASettingsActor* SettingsActor = Cast<ASettingsActor>(Actor);
+		if (!SettingsActor)
+		{
+			return {};
+		}
+
+		return SettingsActor->GetSettingsOverride(XjSettings->SettingsObject);
+	}
+
+	return XjSettings->SettingsObject;
+}
 
 void UXjMusicInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -97,14 +126,14 @@ TArray<FString> UXjMusicInstanceSubsystem::GetAllMacros() const
 
 void UXjMusicInstanceSubsystem::SetupXJ()
 {
-	UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
+	FXjSettings Settings = GetSettings(GetWorld());
 
-	if(!XjSettings || !XjSettings->LaunchProject.IsValid())
+	if(!Settings.LaunchProject.IsValid())
 	{
 		return;
 	}
 	
-	RestoreRuntimeProjectDirectory(XjSettings);
+	RestoreRuntimeProjectDirectory(Settings);
 	
 	if (IsValid(Manager))
 	{
@@ -120,7 +149,7 @@ void UXjMusicInstanceSubsystem::SetupXJ()
 	Mixer = NewObject<UXjMixer>(this);
 	if (Mixer)
 	{
-		Mixer->Setup(XjSettings->bDefaultOutput);
+		Mixer->Setup(Settings.bDefaultOutput);
 	}
 
 	Manager = NewObject<UXjManager>(this);
@@ -134,7 +163,7 @@ void UXjMusicInstanceSubsystem::SetupXJ()
 		bMouseCursorInitialState = PlayerController->ShouldShowMouseCursor();
 	}
 
-	ShowDebugChain(XjSettings->bShowDebugTimeline);
+	ShowDebugChain(Settings.bShowDebugTimeline);
 }
 
 void UXjMusicInstanceSubsystem::ShutdownXJ()
@@ -308,14 +337,14 @@ void UXjMusicInstanceSubsystem::UpdateDebugChainView()
 	}
 }
 
-void UXjMusicInstanceSubsystem::RestoreRuntimeProjectDirectory(UXJMusicDefaultSettings* XjSettings)
+void UXjMusicInstanceSubsystem::RestoreRuntimeProjectDirectory(const FXjSettings& Settings)
 {
-	if(!XjSettings->LaunchProject.IsValid())
+	if(!Settings.LaunchProject.IsValid())
 	{
 		return;
 	}
 
-	XjProjectInstance = Cast<UXjProject>(XjSettings->LaunchProject.TryLoad());
+	XjProjectInstance = Cast<UXjProject>(Settings.LaunchProject.TryLoad());
 	check(XjProjectInstance)
 
 	DeleteRuntimeProjectDirectory();

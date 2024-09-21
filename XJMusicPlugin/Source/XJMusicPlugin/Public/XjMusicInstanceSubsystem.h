@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Widgets/DebugChainView.h"
+#include "Settings/SettingsActor.h"
 #include "XjMusicInstanceSubsystem.generated.h"
 
 class UXjProject;
@@ -12,6 +13,8 @@ class UXjManager;
 class UXjMixer;
 class UXjAudioLoader;
 class UXJMusicDefaultSettings;
+
+FXjSettings GetSettings(UWorld* World);
 
 UCLASS(DisplayName = "XjSubsystem")
 class XJMUSICPLUGIN_API UXjMusicInstanceSubsystem : public UGameInstanceSubsystem
@@ -82,7 +85,7 @@ private:
 
 	void UpdateDebugChainView();
 
-	void RestoreRuntimeProjectDirectory(UXJMusicDefaultSettings* XjSettings);
+	void RestoreRuntimeProjectDirectory(const FXjSettings& Settings);
 
 	void DeleteRuntimeProjectDirectory();
 

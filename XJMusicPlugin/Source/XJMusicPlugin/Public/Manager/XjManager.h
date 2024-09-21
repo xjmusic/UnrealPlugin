@@ -6,6 +6,7 @@
 #include "Types/XjTypes.h"
 #include "Engine/EngineBase.h"
 #include "Manager/XjAudioLoader.h"
+#include "../Settings/SettingsActor.h"
 #include "XjManager.generated.h"
 
 enum class XjCommandType
@@ -51,15 +52,14 @@ public:
 	}
 
 private:
-	bool TryInitMockEngine();
-
-private:
 
 	class UXjMusicInstanceSubsystem* XjMusicSubsystem = nullptr;
 
 	class UXjAudioLoader* AudioLoader = nullptr;
 
 	TSharedPtr<TEngineBase> Engine;
+
+	FXjSettings Settings;
 
 	double LastFrameTime = 0.0f;
 

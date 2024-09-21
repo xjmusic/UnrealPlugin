@@ -14,6 +14,7 @@
 #include "Manager/XjManager.h"
 #include "AudioDecompress.h"
 #include "AudioDevice.h"
+#include "XJMusicPlugin/Public/XjMusicInstanceSubsystem.h"
 
 FXjAudioWave::FXjAudioWave(const FXjAudioWave& Other)
 {
@@ -161,13 +162,14 @@ TSharedPtr<FXjAudioWave> UXjAudioLoader::GetSoundById(const FString& Id, const b
 
 void UXjAudioLoader::RetrieveProjectsContent()
 {
-    UXJMusicDefaultSettings* XjSettings = GetMutableDefault<UXJMusicDefaultSettings>();
-    if (!XjSettings)
-    {
-    	return;
-    }
+	FXjSettings Settings = GetSettings(GetWorld());
    
-    UXjProject* Project = Cast<UXjProject>(XjSettings->LaunchProject.ResolveObject());
+	if (!Settings.LaunchProject.IsValid())
+	{
+		return;
+	}
+
+    UXjProject* Project = Cast<UXjProject>(Settings.LaunchProject.ResolveObject());
     check(Project);
    
     FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
