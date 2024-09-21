@@ -61,9 +61,9 @@ jobs:
       - name: Compress plugin (Window)
         if: runner.os == 'Windows'
         run: |
-          xcopy XJMusicPlugin/ Examples/Showcase/Plugins/ /E /I
-          Compress-Archive -Path Examples/ -DestinationPath XJMusicPluginExamples.zip
           Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
+          xcopy "XJMusicPlugin" "Examples/Showcase/Plugins/XJMusicPlugin/" /E /I
+          Compress-Archive -Path Examples/ -DestinationPath XJMusicPluginExamples.zip
 
       - name: Compress plugin (Linux)
         if: runner.os == 'Linux'
