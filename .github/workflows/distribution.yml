@@ -12,7 +12,7 @@ jobs:
       permissions: write-all
       strategy:
         matrix:
-          os: [ ubuntu-latest, macos-14, windows-latest ]
+          os: [ ubuntu-latest, macos-13, windows-latest ]
         fail-fast: false
         
       steps:
@@ -62,19 +62,22 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
-          Compress-Archive -Path XJMusicPlugin/, Examples/  -DestinationPath XJMusicPluginWithExamples.zip
+          xcopy XJMusicPlugin/ Examples/Showcase/Plugins/ /E /I
+          Compress-Archive -Path Examples/  -DestinationPath XJMusicPluginExamples.zip
 
       - name: Compress plugin (Linux)
         if: runner.os == 'Linux'
         run: |
           tar -czvf XJMusicPlugin.tar.gz XJMusicPlugin/
-          tar -czvf XJMusicPluginWithExamples.tar.gz XJMusicPlugin/ Examples/
+          cp -r XJMusicPlugin/ Examples/Showcase/Plugins/
+          tar -czvf XJMusicPluginExamples.tar.gz Examples/
 
       - name: Compress plugin (macOS)
         if: runner.os == 'macOS'
         run: |
           zip -r XJMusicPlugin.zip XJMusicPlugin/
-          zip -r XJMusicPluginWithExamples.zip XJMusicPlugin/ Examples/
+          cp -r XJMusicPlugin/ Examples/Showcase/Plugins/
+          zip -r XJMusicPluginExamples.zip Examples/
 
           
       - name: Upload just plugin to release page (Windows)
@@ -113,8 +116,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: XJMusicPluginWithExamples.zip
-          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-windows.zip
+          file: XJMusicPluginExamples.zip
+          asset_name: xjmusic-plugin-examples-${{ github.ref_name }}-windows.zip
           tag: ${{ github.ref }}
           overwrite: true 
 
@@ -123,8 +126,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: XJMusicPluginWithExamples.tar.gz
-          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-linux.tar.gz
+          file: XJMusicPluginExamples.tar.gz
+          asset_name: xjmusic-plugin-examples-${{ github.ref_name }}-linux.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -133,7 +136,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: XJMusicPluginWithExamples.zip
-          asset_name: xjmusic-plugin-withExamples-${{ github.ref_name }}-macOs.zip
+          file: XJMusicPluginExamples.zip
+          asset_name: xjmusic-plugin-examples-${{ github.ref_name }}-macOs.zip
           tag: ${{ github.ref }}
           overwrite: true
