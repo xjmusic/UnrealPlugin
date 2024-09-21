@@ -62,6 +62,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
+          mkdir -p Examples/Showcase/Plugins/XJMusicPlugin/
           cp -r XJMusicPlugin/ Examples/Showcase/Plugins/XJMusicPlugin/
           Compress-Archive -Path Examples/ -DestinationPath XJMusicPluginExamples.zip
 
@@ -69,6 +70,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           tar -czvf XJMusicPlugin.tar.gz XJMusicPlugin/
+          mkdir -p Examples/Showcase/Plugins/XJMusicPlugin/
           cp -r XJMusicPlugin/ Examples/Showcase/Plugins/XJMusicPlugin/
           tar -czvf XJMusicPluginExamples.tar.gz Examples/
 
@@ -76,6 +78,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           zip -r XJMusicPlugin.zip XJMusicPlugin/
+          mkdir -p Examples/Showcase/Plugins/XJMusicPlugin/
           cp -r XJMusicPlugin/ Examples/Showcase/Plugins/XJMusicPlugin/
           zip -r XJMusicPluginExamples.zip Examples/
 
