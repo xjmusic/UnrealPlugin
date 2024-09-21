@@ -12,7 +12,7 @@ jobs:
       permissions: write-all
       strategy:
         matrix:
-          os: [ ubuntu-latest, macos-13, windows-latest ]
+          os: [ windows-latest ]
         fail-fast: false
         
       steps:
@@ -62,7 +62,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           Compress-Archive -Path XJMusicPlugin/ -DestinationPath XJMusicPlugin.zip
-          xcopy "XJMusicPlugin" "Examples/Showcase/Plugins/XJMusicPlugin/" /E /I
+          cp -r XJMusicPlugin/ Examples/Showcase/Plugins/
           Compress-Archive -Path Examples/ -DestinationPath XJMusicPluginExamples.zip
 
       - name: Compress plugin (Linux)
