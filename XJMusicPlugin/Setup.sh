@@ -1,4 +1,4 @@
-TAG="v1.9.5"
+TAG="v1.9.6"
 REPOSITORY_PATH="xj/"
 CMAKE_PATH="xj/engine/"
 

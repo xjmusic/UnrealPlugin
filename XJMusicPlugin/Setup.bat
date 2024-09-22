@@ -1,6 +1,6 @@
 @echo off
 
-SET "TAG=v1.9.5"
+SET "TAG=v1.9.6"
 SET "REPOSITRY_PATH=.\xj\"
 SET "CMAKE_PATH=.\xj\engine\"
 
