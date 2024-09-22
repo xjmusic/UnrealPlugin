@@ -14,6 +14,7 @@
 #include "Framework/Commands/UIAction.h"
 #include "ToolMenus.h"
 #include "DesktopPlatformModule.h"
+#include "Editor/UnrealEd/Public/AssetImportTask.h"
 
 #define LOCTEXT_NAMESPACE "FXJMusicPluginEditorModule"
 
@@ -129,26 +130,53 @@ void FXJMusicPluginEditorModule::BuildButtonClicked()
 
 	PlatformFile.FindFilesRecursively(FoundAudioFilesPaths, *PathToBuildFolder, TEXT(".wav"));
 
+	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
+
+#if ENGINE_MAJOR_VERSION >= 5
+
+	TArray<UAssetImportTask*> ImportTasks;
+
+	for (const FString& File : FoundAudioFilesPaths)
+	{
+		UAssetImportTask* Task = NewObject<UAssetImportTask>();
+
+		Task->Filename = File;
+		Task->DestinationPath = DestinationPath;
+
+		Task->bSave = false;
+		Task->bAutomated = true;
+		Task->bAsync = true;
+		Task->bReplaceExisting = true;
+		Task->bReplaceExistingSettings = false;
+
+		ImportTasks.Add(Task);
+	}
+
+	AssetToolsModule.Get().ImportAssetTasks(ImportTasks);
+
+#else
+
 	UAutomatedAssetImportData* ImportData = NewObject<UAutomatedAssetImportData>();
 	check(ImportData);
-	
+
 	ImportData->bReplaceExisting = true;
 	ImportData->DestinationPath = DestinationPath;
 	ImportData->Filenames = FoundAudioFilesPaths;
 
-
-	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
-
 	AssetToolsModule.Get().ImportAssetsAutomated(ImportData);
 
-	UXjProjectTypeFactory* XjProjectTypeFactory = NewObject<UXjProjectTypeFactory>();
+#endif
+
+		UXjProjectTypeFactory* XjProjectTypeFactory = NewObject<UXjProjectTypeFactory>();
 	check(XjProjectTypeFactory);
 
-	UXjProject* XjProject = Cast<UXjProject>(AssetToolsModule.Get().CreateAsset(LastFolderName, DestinationPath, UXjProject::StaticClass(), XjProjectTypeFactory));
+	UXjProject* XjProject = Cast<UXjProject>(AssetToolsModule.Get().CreateAsset(LastFolderName, DestinationPath,
+											 UXjProject::StaticClass(), XjProjectTypeFactory));
+
 	check(XjProject);
 
 	XjProject->StoreDirectory(DirectoryContainingProject);
-	
+
 	XjProject->ProjectName = LastFolderName;
 	XjProject->ProjectPath = DestinationPath;
 }
