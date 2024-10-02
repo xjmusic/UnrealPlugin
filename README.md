@@ -1,3 +1,8 @@
+[![Plugin Distribution](https://github.com/xjmusic/UnrealPlugin/actions/workflows/distribution.yml/badge.svg)](https://github.com/xjmusic/UnrealPlugin/actions/workflows/distribution.yml)
+<br/>
+<a href="https://xjmusic.com/license"><img src="https://img.shields.io/badge/license-free_for_indies-4dc81f" alt="License" /></a>
+<a href="https://discord.xj.io/">![Discord](https://img.shields.io/discord/1143999288440000522.svg?label=Discord&logo=discord&color=7289DA&labelColor=2C2F33)</a>
+<a href="https://www.unrealengine.com/">![Unreal Engine](https://img.shields.io/badge/Unreal-5.4.4%2B-dea309)</a>
 # Unreal Plugin for XJ music
 
 <a href="https://www.youtube.com/embed/cs4DdL3jMI0?si=0agEYCkcdHPmnJt-" target="_blank">
@@ -7,14 +12,14 @@
 
 # Adaptive music engine
 
-XJ music is the first end-to-end solution for adaptive music in video games built specifically and only for music, enabling composers to realize new possibilities.
+[XJ music](https://xjmusic.com) is the first end-to-end solution for adaptive music in video games built specifically and only for music, enabling composers to realize new possibilities.
 
-XJ includes the [XJ music workstation](workstation/README.md), a DAW dedicated to preparing adaptive video game music, and the 
-[XJ music engine](engine/README.md) to integrate the product within your game audio system.
+XJ includes
+- [XJ music workstation](https://github.com/xjmusic/xjmusic/tree/main/workstation/README.md), a desktop DAW dedicated to preparing adaptive video game music
+- [XJ music engine](https://github.com/xjmusic/xjmusic/tree/main/engine/README.md) in C++ to integrate the product within any game audio system.
+- [XJ music Unreal plugin](https://github.com/xjmusic/UnrealPlugin/) to integrate the XJ music engine into [Unreal Engine](https://www.unrealengine.com/)
 
 Download and install the XJ music workstation on your computer to start creating adaptive music for video games. The latest version of the XJ music workstation can be downloaded from [xjmusic.com/download](https://xjmusic.com/download).
-
-![XJ music workstation in action](workstation/design/xjmusic-workstation-screenshot-fabrication.png)
 
 
 Setup
