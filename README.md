@@ -1,7 +1,7 @@
 # Unreal Plugin for XJ music
 
 <a href="https://www.youtube.com/embed/cs4DdL3jMI0?si=0agEYCkcdHPmnJt-" target="_blank">
-![XJ Unreal Plugin Demo with YouTube Play Button](Design/Thumbnail-XJ-Unreal-Plugin-Demo-with-YouTube-Play-Button.jpg)
+<img alt="XJ Unreal Plugin Demo with YouTube Play Button" src="Design/Thumbnail-XJ-Unreal-Plugin-Demo-with-YouTube-Play-Button.jpg"/>
 </a>
 
 <a href="https://xjmusic.com">
