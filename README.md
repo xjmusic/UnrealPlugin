@@ -4,10 +4,6 @@
 <img alt="XJ Unreal Plugin Demo with YouTube Play Button" src="Design/Thumbnail-XJ-Unreal-Plugin-Demo-with-YouTube-Play-Button.jpg"/>
 </a>
 
-<a href="https://xjmusic.com">
-  <img width="320" height="320" src="Design/xj-music-logo.png" alt="XJ music logo" />
-</a>
-
 
 # Adaptive music engine
 
@@ -19,6 +15,7 @@ XJ includes the [XJ music workstation](workstation/README.md), a DAW dedicated t
 Download and install the XJ music workstation on your computer to start creating adaptive music for video games. The latest version of the XJ music workstation can be downloaded from [xjmusic.com/download](https://xjmusic.com/download).
 
 ![XJ music workstation in action](workstation/design/xjmusic-workstation-screenshot-fabrication.png)
+
 
 Setup
 ----------------------
@@ -54,6 +51,12 @@ Then, read the [getting started documentation](https://docs.xjmusic.com/getting-
 The source files for the demos are hosted [here](https://github.com/xjmusic/xjmusic-demos)
 
 When you're ready to integrate XJ music into your game, check out the [C++ playback engine](https://github.com/xjmusic/xjmusic/tree/main/engine/) and [its documentation](https://engine-docs.xjmusic.com/).
+
+
+
+## Plans for Audio Streaming
+
+Read the [Audio Streaming design document"](Design/AssetStreaming-PetroStasiv.pdf) by [Petro Stasiv](https://www.linkedin.com/in/petro-stasiv/).
 
 
 ## Patented technology, open source codebase
