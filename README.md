@@ -3,6 +3,7 @@
 <a href="https://xjmusic.com/license"><img src="https://img.shields.io/badge/license-free_for_indies-4dc81f" alt="License" /></a>
 <a href="https://discord.xj.io/">![Discord](https://img.shields.io/discord/1143999288440000522.svg?label=Discord&logo=discord&color=7289DA&labelColor=2C2F33)</a>
 <a href="https://www.unrealengine.com/">![Unreal Engine](https://img.shields.io/badge/Unreal-5.4.4%2B-dea309)</a>
+<a href="https://github.com/insthync/awesome-unreal#sound"><img src="https://img.shields.io/badge/awesome-unreal-346edc" alt="Featured in awesome-unreal" /></a>
 # Unreal Plugin for XJ music
 
 <a href="https://www.youtube.com/watch?v=cs4DdL3jMI0">
