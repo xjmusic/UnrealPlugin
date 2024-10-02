@@ -1,8 +1,24 @@
 # Unreal Plugin for XJ music
 
+<a href="https://www.youtube.com/embed/cs4DdL3jMI0?si=0agEYCkcdHPmnJt-" target="_blank">
+![XJ Unreal Plugin Demo with YouTube Play Button](Design/Thumbnail-XJ-Unreal-Plugin-Demo-with-YouTube-Play-Button.jpg)
+</a>
+
+<a href="https://xjmusic.com">
+  <img width="320" height="320" src="Design/xj-music-logo.png" alt="XJ music logo" />
+</a>
 
 
+# Adaptive music engine
 
+XJ music is the first end-to-end solution for adaptive music in video games built specifically and only for music, enabling composers to realize new possibilities.
+
+XJ includes the [XJ music workstation](workstation/README.md), a DAW dedicated to preparing adaptive video game music, and the 
+[XJ music engine](engine/README.md) to integrate the product within your game audio system.
+
+Download and install the XJ music workstation on your computer to start creating adaptive music for video games. The latest version of the XJ music workstation can be downloaded from [xjmusic.com/download](https://xjmusic.com/download).
+
+![XJ music workstation in action](workstation/design/xjmusic-workstation-screenshot-fabrication.png)
 
 Setup
 ----------------------
@@ -27,23 +43,6 @@ You only need to copy an XJMusicPlugin folder and paste it inside the Plugins fo
 
 The path to where you need to paste the plugin must look like this:
 ```Examples/../Plugins```
-
-
-<a href="https://xjmusic.com">
-  <img width="320" height="320" src="design/xj-music-logo.png" alt="XJ music logo" />
-</a>
-
-
-# Adaptive music engine
-
-XJ music is the first end-to-end solution for adaptive music in video games built specifically and only for music, enabling composers to realize new possibilities.
-
-XJ includes the [XJ music workstation](workstation/README.md), a DAW dedicated to preparing adaptive video game music, and the 
-[XJ music engine](engine/README.md) to integrate the product within your game audio system.
-
-Download and install the XJ music workstation on your computer to start creating adaptive music for video games. The latest version of the XJ music workstation can be downloaded from [xjmusic.com/download](https://xjmusic.com/download).
-
-![XJ music workstation in action](workstation/design/xjmusic-workstation-screenshot-fabrication.png)
 
 
 ## Getting started
