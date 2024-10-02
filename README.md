@@ -5,7 +5,7 @@
 <a href="https://www.unrealengine.com/">![Unreal Engine](https://img.shields.io/badge/Unreal-5.4.4%2B-dea309)</a>
 # Unreal Plugin for XJ music
 
-<a href="https://www.youtube.com/embed/cs4DdL3jMI0?si=0agEYCkcdHPmnJt-" target="_blank">
+<a href="https://www.youtube.com/watch?v=cs4DdL3jMI0">
 <img alt="XJ Unreal Plugin Demo with YouTube Play Button" src="Design/Thumbnail-XJ-Unreal-Plugin-Demo-with-YouTube-Play-Button.jpg"/>
 </a>
 
