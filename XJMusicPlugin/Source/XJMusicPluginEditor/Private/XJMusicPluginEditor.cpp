@@ -15,6 +15,7 @@
 #include "ToolMenus.h"
 #include "DesktopPlatformModule.h"
 #include "Editor/UnrealEd/Public/AssetImportTask.h"
+#include <AssetRegistry/AssetRegistryModule.h>
 
 #define LOCTEXT_NAMESPACE "FXJMusicPluginEditorModule"
 
@@ -132,6 +133,8 @@ void FXJMusicPluginEditorModule::BuildButtonClicked()
 
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
+	
+
 #if ENGINE_MAJOR_VERSION >= 5
 
 	TArray<UAssetImportTask*> ImportTasks;
@@ -148,7 +151,7 @@ void FXJMusicPluginEditorModule::BuildButtonClicked()
 		Task->bAsync = true;
 		Task->bReplaceExisting = true;
 		Task->bReplaceExistingSettings = false;
-
+		
 		ImportTasks.Add(Task);
 	}
 
@@ -167,7 +170,7 @@ void FXJMusicPluginEditorModule::BuildButtonClicked()
 
 #endif
 
-		UXjProjectTypeFactory* XjProjectTypeFactory = NewObject<UXjProjectTypeFactory>();
+	UXjProjectTypeFactory* XjProjectTypeFactory = NewObject<UXjProjectTypeFactory>();
 	check(XjProjectTypeFactory);
 
 	UXjProject* XjProject = Cast<UXjProject>(AssetToolsModule.Get().CreateAsset(LastFolderName, DestinationPath,
@@ -179,6 +182,28 @@ void FXJMusicPluginEditorModule::BuildButtonClicked()
 
 	XjProject->ProjectName = LastFolderName;
 	XjProject->ProjectPath = DestinationPath;
+
+	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+    IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
+   
+    FString ContentDirectory = "/Game/XJ/" + XjProject->ProjectName;
+   
+    TArray<FAssetData> AudioData;
+   
+    AssetRegistry.ScanPathsSynchronous({ ContentDirectory }, true);
+	AssetRegistry.GetAssetsByPath(*ContentDirectory, AudioData, true);
+
+	for (const FAssetData& Asset : AudioData)
+	{
+		TSoftObjectPtr<UObject> SoftPtr(Asset.ToSoftObjectPath());
+		if (!SoftPtr.IsValid())
+		{
+			return;
+		}
+
+		XjProject->AudiosReferences.Add(SoftPtr);
+	}
+
 }
 
 TSharedRef<SWidget> FXJMusicPluginEditorModule::GenerateComboBox()

@@ -47,11 +47,9 @@ public:
 
 	void ShutdownXJ();
 
-
 	void AddOrUpdateActiveAudio(const FAudioPlayer& Audio);
 
 	void RemoveActiveAudio(const FAudioPlayer& Audio);
-
 	
 	const TMap<FString, FAudioPlayer>& GetActiveAudios() const
 	{
@@ -77,8 +75,6 @@ public:
 
 private:
 
-	FString RuntimeProjectDir;
-
 	void OnShowDebugChainVarChanged(IConsoleVariable* Var);
 	
 	void ShowDebugChain(const bool bShow);
@@ -88,6 +84,8 @@ private:
 	void RestoreRuntimeProjectDirectory(const FXjSettings& Settings);
 
 	void DeleteRuntimeProjectDirectory();
+
+	FString RuntimeProjectDir;
 
 	TSharedPtr<SDebugChainView> DebugChainViewWidget;
 

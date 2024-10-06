@@ -125,7 +125,7 @@ void UXjAudioLoader::Shutdown()
 
 void UXjAudioLoader::DecompressAll()
 {
-	for (const TPair<FString, FSoftObjectPath>& Info : AudiosSoftReferences)
+	for (const TPair<FString, TSoftObjectPtr<UObject>>& Info : AudiosSoftReferences)
 	{
 		GetSoundById(Info.Key, true);
 	}
@@ -138,13 +138,13 @@ TSharedPtr<FXjAudioWave> UXjAudioLoader::GetSoundById(const FString& Id, const b
 		return *Wave;
 	}
 
-	FSoftObjectPath* ObjectPath = AudiosSoftReferences.Find(Id);
-	if (!ObjectPath)
+	FSoftObjectPath* AudioPath  = AudiosSoftReferences.Find(Id);
+	if (!AudioPath)
 	{
 		return {};
 	}
 
-	USoundWave* Wave = Cast<USoundWave>(ObjectPath->ResolveObject());
+	USoundWave* Wave = Cast<USoundWave>(AudioPath->ResolveObject());
 	if (!Wave)
 	{
 		return {};
@@ -169,28 +169,18 @@ void UXjAudioLoader::RetrieveProjectsContent()
 		return;
 	}
 
-    UXjProject* Project = Cast<UXjProject>(Settings.LaunchProject.ResolveObject());
-    check(Project);
-   
-    FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
-    IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
-   
-    FString ContentDirectory = "/Game/XJ/" + Project->ProjectName;
-   
-    TArray<FAssetData> AudioData;
-   
-    AssetRegistry.ScanPathsSynchronous({ ContentDirectory }, true);
-    AssetRegistry.GetAssetsByPath(*ContentDirectory, AudioData, true);
+    UXjProject* LoadedProject = Cast<UXjProject>(Settings.LaunchProject.ResolveObject());
+    check(LoadedProject);
 
-    for (const FAssetData& Data : AudioData)
-    {
-    	AudiosSoftReferences.Add(Data.AssetName.ToString() + ".wav", Data.ToSoftObjectPath());
-    }
-   
-    TArray<FSoftObjectPath> Paths;
-    AudiosSoftReferences.GenerateValueArray(Paths);
-    InitialAssetsStream = StreamableManager.RequestAsyncLoad(Paths);
-	
+	for (TSoftObjectPtr<UObject> Obj : LoadedProject->AudiosReferences)
+	{
+		AudiosSoftReferences.Add(Obj.GetAssetName() + ".wav", Obj.ToSoftObjectPath());
+	}
+
+	TArray<FSoftObjectPath> Paths;
+	AudiosSoftReferences.GenerateValueArray(Paths);
+	InitialAssetsStream = StreamableManager.RequestAsyncLoad(Paths);
+
 	if (!InitialAssetsStream->BindCompleteDelegate(FStreamableDelegate::CreateUObject(this, &UXjAudioLoader::OnAssetsLoaded)))
 	{
 		OnAssetsLoaded();

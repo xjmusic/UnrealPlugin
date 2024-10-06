@@ -40,6 +40,9 @@ public:
 	UFUNCTION()
 	void DeleteDirectory(const FString& DestinationPath) const;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TArray<TSoftObjectPtr<UObject>> AudiosReferences;
+
 private:
 
 	UPROPERTY()
